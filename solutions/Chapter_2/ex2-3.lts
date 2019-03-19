@@ -1,0 +1,12 @@
+/* Concurrency: State Models & Java Programs
+*  Jeff Magee & Jeff Kramer
+*  Solutions to Exercises
+*
+*  Exercise 2.3
+*/
+
+BISTABLE = ONE,
+ZERO = (trigger -> [0] -> ONE),
+ONE  = (trigger -> [1] -> ZERO).
+
+menu RUN  = {trigger}

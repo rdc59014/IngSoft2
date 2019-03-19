@@ -1,0 +1,21 @@
+/* Concurrency: State Models & Java Programs
+*  Jeff Magee & Jeff Kramer
+*  Solutions to Exercises
+*
+*  Exercise 3.4
+*/
+const N = 2
+
+CLIENT = (call -> WAIT),
+WAIT   = (timeout -> continue -> CLIENT 
+         | wait -> continue -> CLIENT
+         ).
+
+SERVER = (request -> service -> reply -> SERVER).
+
+||CLIENT_SERVER = (client[1..N]:CLIENT || SERVER)
+                  / {client[1..N].call/request,
+                     client[1..N].wait/reply
+                    }.
+
+ /* check for deadlock in this system */

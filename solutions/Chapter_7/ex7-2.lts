@@ -1,0 +1,28 @@
+/* Concurrency: State Models & Java Programs
+*  Jeff Magee & Jeff Kramer
+*  Solutions to Exercises
+*
+*  Exercise 7.2
+*/
+
+const N = 10
+
+property LIFTCAPACITY = LIFT[0],
+LIFT[i:0..10] = (enter -> LIFT[i+1]
+                |when(i>0) exit  -> LIFT[i-1]
+                |when(i==0)exit  -> LIFT[0]
+                ).
+/*
+Trace to property violation in LIFTCAPACITY:
+	enter
+	enter
+	enter
+	enter
+	enter
+	enter
+	enter
+	enter
+	enter
+	enter
+	enter
+*/

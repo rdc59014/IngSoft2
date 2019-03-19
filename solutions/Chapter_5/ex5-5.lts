@@ -1,0 +1,27 @@
+/* Concurrency: State Models & Java Programs
+*  Jeff Magee & Jeff Kramer
+*  Solutions to Exercises
+*
+*  Exercise 5.5
+*/
+
+/* Barrier Synchronization 
+
+public class Barrier {
+  protected int  count;
+  protected int N;
+
+  public Barrier(int n) {N = n; count = 0;}
+
+  public synchronized void sync() throws InterruptedException {
+        ++count
+        if (count == N) {
+           notifyAll();
+           count = 0;
+        } else
+           wait();
+  }
+}
+
+*/
+

@@ -1,0 +1,37 @@
+/* Concurrency: State Models & Java Programs
+*  Jeff Magee & Jeff Kramer
+*  Solutions to Exercises
+*
+*  Exercise 2.5
+*/
+
+/* Drinks dispensing machine 
+*  This solution requires LTSA V2.1 or later !!!
+*/
+
+const Price = 15
+set   Coins = {[5],[10],[20]}
+range Credit = 0..20
+
+minimal
+DRINKS = CREDIT[0],
+CREDIT[v:Credit] = 
+            (in.coin[c:Coins] -> 
+               if (v+c >=Price) then 
+                  (can->CHANGE[v+c-Price])
+                else 
+                  CREDIT[v+c]
+            ),
+CHANGE[v:Credit]  = 
+        if (v==0) then
+          DRINKS
+        else if (v>=10) then
+          (out.coin[10] -> CHANGE[v-10])
+        else if (v>=5) then
+          (out.coin[5] -> CHANGE[v-5])
+        else
+          ERROR.
+
+menu RUN = {in.coin[Coins]}
+
+

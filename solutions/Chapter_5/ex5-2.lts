@@ -1,0 +1,38 @@
+/* Concurrency: State Models & Java Programs
+*  Jeff Magee & Jeff Kramer
+*  Solutions to Exercises
+*
+*  Exercise 5.2
+*/
+
+ONEBUF = (put -> get -> ONEBUF).
+
+/* java Implementation using Semaphores
+
+public class OneBuf {
+    Object slot = null;
+    Semaphore empty = new Semaphore(1);
+    Semaphore full  = new Semaphore(0);
+
+    public void put(Object o) throws InterruptedException {
+        empty.down();
+        slot = o;
+        full.up();
+    }
+
+	public Object get () throws InterruptedException {
+        full.down();
+        Object o = slot;
+        slot = null;
+        empty.up();
+        return o;
+    }
+}
+
+*/
+
+/* split binary semaphore provides mutual exclusion on slot 
+   using the methods outlined in the web supplement, verify this is true
+*/
+    
+         

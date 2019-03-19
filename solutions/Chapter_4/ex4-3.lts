@@ -1,0 +1,41 @@
+/* Concurrency: State Models & Java Programs
+*  Jeff Magee & Jeff Kramer
+*  Solutions to Exercises
+*
+*  Exercise 4.3
+*/
+
+
+const False = 0
+const True  = 1
+range Bool =  False..True
+
+SEAT = SEAT[False],
+SEAT[reserved:Bool] 
+     = ( reserve    -> SEAT[True]
+       | query[reserved] -> SEAT[reserved]
+       | when (reserved) reserve -> ERROR   //error of reserved twice
+       ).
+
+range Seats = 0..1
+||SEATS = (seat[Seats]:SEAT).
+
+LOCK = (acquire -> release -> LOCK).
+
+BROKENLOCK = ({acquire,release}->BROKENLOCK).
+
+TERMINAL = (choose[s:Seats] -> acquire 
+           -> seat[s].query[reserved:Bool]
+           -> if (!reserved) then
+                (seat[s].reserve -> release-> TERMINAL)
+              else
+                (release -> TERMINAL)
+           ).
+
+set Terminals = {a,b}
+||CONCERT = (Terminals:TERMINAL || Terminals::SEATS || Terminals::LOCK).
+
+/* use this system to demonstrate how lack of mutual exclusion leads to double reservation
+*/
+
+||UNSAFECONCERT = (Terminals:TERMINAL || Terminals::SEATS || Terminals::BROKENLOCK).

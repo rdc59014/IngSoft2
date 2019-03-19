@@ -1,0 +1,32 @@
+/* Concurrency: State Models & Java Programs
+*  Jeff Magee & Jeff Kramer
+*  Solutions to Exercises
+*
+*  Exercise 5.1
+*/
+
+ONEBUF = (put -> get -> ONEBUF).
+
+/* java Implementation
+
+public class OneBuf {
+    Object slot = null;
+
+    public synchronized void put(Object o) throws InterruptedException {
+        while(slot != null) wait();
+        slot = o;
+        notifyAll();
+    }
+
+	public synchronized Object get () throws InterruptedException {
+        while(slot == null) wait();
+        Object o = slot;
+        slot = null;
+        notifyAll();
+        return o;
+    }
+}
+
+*/
+    
+         

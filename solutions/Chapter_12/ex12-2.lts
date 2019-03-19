@@ -1,0 +1,28 @@
+/* Concurrency: State Models & Java Programs
+*  Jeff Magee & Jeff Kramer
+*  Solutions to Exercises
+*
+*  Exercise 12.2
+*/
+
+TBUF(T=2)     = INPUT,
+INPUT         = (tick -> INPUT | in -> DELAY[T]),
+DELAY[d:0..T] = (tick -> if (d>0) then DELAY[d-1] else OUTPUT),
+OUTPUT        = (tick -> OUTPUT | out -> TBUF).
+
+||TWOTBUF = (TBUF(1)/{mid/out} || TBUF(1)/{mid/in})@{in,out,tick}.
+/* this does not cause a time stop whatever the parameters since TBUF 
+*  can both wait to input and wait to output
+*  however, try running the system and observe that it is possible
+*  for time to pass when a value could be transferred via mid
+*  thus the time, from an input until the time the output
+*  becomes available, can be greater than the delay for
+*  each element of the buffer.
+*/
+
+||MAXIMAL = (TBUF(1)/{mid/out} || TBUF(1)/{mid/in})>>{in, out,tick}@{in,out,tick}.
+/* In this system since we have made the tick and the environment
+*   actions in & out low priority, it is now the case that time
+*  cannot pass if a mid action is possible. The delay from input to output
+*  is just the sum of the delay for each element of the buffer
+*/

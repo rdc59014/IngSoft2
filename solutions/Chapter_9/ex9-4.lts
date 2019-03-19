@@ -1,0 +1,19 @@
+/* Concurrency: State Models & Java Programs
+*  Jeff Magee & Jeff Kramer
+*  Solutions to Exercises
+*
+*  Exercise 9.4
+*/
+
+const N = 3
+
+SLAVE = (start->rotate->join->SLAVE).
+
+MASTER = START[1],
+START[i:1..N] = (slave[i].start -> if (i<N) then START[i+1] else ROTATE),
+ROTATE        = (rotate -> JOIN[1]),
+JOIN[i:1..N]  = (slave[i].join  -> if (i<N) then JOIN[i+1] else (rotate->MASTER)).
+
+
+||MASTER_SLAVE = (MASTER || slave[1..N]:SLAVE).
+

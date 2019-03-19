@@ -1,0 +1,15 @@
+/* Concurrency: State Models & Java Programs
+*  Jeff Magee & Jeff Kramer
+*  Solutions to Exercises
+*
+*  Exercise 3.6
+*/
+
+P = (a -> b-> P).
+Q = (c -> b-> Q).
+||S1 = (P || Q).
+
+S2 = (a->c->b->S2 | c->a->b->S2).
+||S2C = S2.
+
+/* minimise the two targets S1 & S2C & compare LTS */

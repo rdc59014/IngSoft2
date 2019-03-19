@@ -1,0 +1,30 @@
+/* Concurrency: State Models & Java Programs
+*  Jeff Magee & Jeff Kramer
+*  Solutions to Exercises
+*
+*  Exercise 6.4
+*/
+
+/* wait- for cycle */
+
+Alice = (call.bob   -> wait.chris -> Alice).
+Bob   = (call.chris -> wait.alice -> Bob).
+Chris = (call.alice -> wait.bob   -> Chris).
+
+||S = (Alice || Bob || Chris) /{call/wait}.
+
+AliceT = (call.bob   -> wait.chris -> AliceT
+         |timeout.alice -> wait.chris -> AliceT).
+BobT   = (call.chris -> wait.alice -> BobT
+         |timeout.bob -> wait.alice -> BobT).
+ChrisT = (call.alice -> wait.bob   -> ChrisT
+         |timeout.chris -> wait.bob -> ChrisT).
+
+||ST = (AliceT || BobT || ChrisT) /{call/wait}.
+
+/* do safety check on this system to get :
+   Trace to DEADLOCK:
+	timeout.alice
+	timeout.bob
+	timeout.chris
+*/

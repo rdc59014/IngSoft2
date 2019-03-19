@@ -1,0 +1,58 @@
+/* Concurrency: State Models & Java Programs
+*  Jeff Magee & Jeff Kramer
+*  Solutions to Exercises
+*
+*  Exercise 11.2
+*/
+
+/* Implementation of supervisor-worker using entry 
+   Worker:
+      requests task from supervisor using an entry call
+      then send back result
+      idle workers are simply queued to the ENTRY
+   Supervisor
+      accepts calls and returns tasks until none left
+      then returns stop
+*/
+
+//asynchronous message passing port
+//(turn off "Display warning messages")
+
+set M = {red,blue} 
+set S = {[M],[M][M]}
+
+PORT            //empty state, only send permitted
+  = (send[x:M]->PORT[x]),  
+PORT[h:M]       //one message queued to port   
+  = (send[x:M]->PORT[x][h] 
+    |receive[h]->PORT
+    ), 
+PORT[t:S][h:M]  //two or more  messages queued to port 
+   = (send[x:M]->PORT[x][t][h]
+     |receive[h]->PORT[t]
+     ).
+
+||ENTRY = PORT/{call/send, accept/receive}.
+
+WORKER(ID='color) = (entry.call[ID] ->
+                      ([ID].task -> [ID].compute -> [ID].result ->WORKER
+                      |[ID].stop  -> end -> STOP
+                      )
+                    ).
+
+const N = 3 //number of tasks
+
+SUPERVISOR = SUPERVISOR[0],
+SUPERVISOR[t:0..N] = (when (t<N) entry.accept[m:M] -> [m].task -> SUPERVISOR[t+1]
+                     |M.result -> SUPERVISOR[t]
+                     |when (t==N)entry.accept[m:M] -> [m].stop -> SUPERVISOR[t]
+                     |end -> STOP
+                     ).
+
+END   = (end  ->ENDED),
+ENDED = (ended->ENDED).
+
+||SUPWORK = (WORKER('red) || WORKER('blue) || entry:ENTRY || SUPERVISOR || END).
+
+progress END = {ended}
+

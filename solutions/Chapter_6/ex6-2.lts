@@ -1,0 +1,28 @@
+/* Concurrency: State Models & Java Programs
+*  Jeff Magee & Jeff Kramer
+*  Solutions to Exercises
+*
+*  Exercise 6.2
+*/
+
+
+PHIL = (sitdown->right.get->left.get
+          ->eat->left.put->right.put
+          ->arise->PHIL).
+
+FORK = (get -> put -> FORK).
+
+||DINERS(N=5)= 
+   forall [i:0..N-1] 
+   (phil[i]:PHIL 
+   ||{phil[i].left,phil[((i-1)+N)%N].right}::FORK).
+
+menu RUN = {phil[0..4].{sitdown,eat}}
+
+/* permits only N-1 philosophers to sitdown at the same time */
+BUTLER(N=5) = BUTLER[0],
+BUTLER[i:0..N-1] = (when (i<N-1) phil[0..N-1].sitdown -> BUTLER[i+1]
+                   |when (i>0)   phil[0..N-1].arise -> BUTLER[i-1]
+                   ).
+
+||DINERS_BUTLER = (DINERS(5) || BUTLER(5) ).

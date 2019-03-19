@@ -1,0 +1,16 @@
+/* Concurrency: State Models & Java Programs
+*  Jeff Magee & Jeff Kramer
+*  Solutions to Exercises
+*
+*  Exercise 2.2
+*/
+
+const N = 2
+range Int = 0..N
+
+VARIABLE = VAR[0],
+VAR[i:Int]   = (read[i]      -> VAR[i]
+               |write[v:Int] -> VAR[v]
+               ).
+
+// use CHECK - RUN DEFAULT to check trace

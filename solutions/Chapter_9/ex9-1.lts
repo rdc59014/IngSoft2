@@ -1,0 +1,19 @@
+/* Concurrency: State Models & Java Programs
+*  Jeff Magee & Jeff Kramer
+*  Solutions to Exercises
+*
+*  Exercise 9.1
+*/
+
+set Bold = {bold[1..2]}
+set Meek = {meek[1..2]}
+set Customers = {Bold,Meek}
+
+CUSTOMER = (getcheese->CUSTOMER).
+COUNTER =  (getcheese->COUNTER).
+
+||CHEESE_COUNTER = 
+		(Customers:CUSTOMER || Customers::COUNTER)>>{Meek.getcheese}.
+
+progress BOLD = {Bold.getcheese}
+progress MEEK = {Meek.getcheese}

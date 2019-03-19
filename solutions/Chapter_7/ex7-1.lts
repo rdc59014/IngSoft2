@@ -1,0 +1,14 @@
+/* Concurrency: State Models & Java Programs
+*  Jeff Magee & Jeff Kramer
+*  Solutions to Exercises
+*
+*  Exercise 7.1
+*/
+
+property PS = (a -> (b -> PS|a -> PS)|b -> a -> PS).
+
+/*
+Trace to property violation in PS:
+	b
+	b
+*/

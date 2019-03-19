@@ -1,0 +1,56 @@
+/* Concurrency: State Models & Java Programs
+*  Jeff Magee & Jeff Kramer
+*  Solutions to Exercises
+*
+*  Exercise 12.4
+*/
+
+const T = 1
+const R = 5
+
+BUTTON(B='up)  = OFF,
+OFF            = (tick -> OFF | [B].press ->[B].on -> ON[0]),
+ON[d:0..T]     = (tick -> if (d<T) then ON[d+1] else ON
+                 |[B].release -> OFF   //do not turn motor off, leave it to Window
+                 ),
+ON             = (tick -> ON | [B].release -> [B].off -> OFF).
+
+//only up or down may be pressed at the same time
+INTERLOCK = ([b:{up,down}].press -> [b].release -> INTERLOCK).
+
+||BUTTONS = (BUTTON('up) || BUTTON('down) || INTERLOCK)
+            /{start_close/up.on,
+              start_open/down.on,
+              stop_close/up.off,
+              stop_open/down.off
+             }.
+
+WINDOW  
+   = POSITION[R][0],  //fully closed
+POSITION[pos:0..R][dir:-1..1]         //-1 = opening, 0 = stationary , 1 = closing
+   = (when (dir == -1) tick -> if (pos >1)   then POSITION[pos+dir][dir] else POSITION[0][0] //fully open
+     |when (dir == 1)  tick -> if (pos<R-1)  then POSITION[pos+dir][dir] else POSITION[R][0] //fully closed
+     |when (dir == 0)  tick -> POSITION[pos][0]
+     |start_close -> if (pos==R) then POSITION[pos][0] else POSITION[pos][1]
+     |start_open  -> if (pos==0) then POSITION[pos][0] else POSITION[pos][-1]
+     |{stop_close,stop_open} -> POSITION[pos][0]
+     //if still opening when opened then ERROR
+     |when (pos==0) opened -> if (dir==-1) then ERROR else POSITION[pos][dir]
+     //if still closing when closed the ERROR
+     |when (pos==R) closed -> if (dir==1)  then ERROR else POSITION[pos][dir]
+     ).
+
+||CAR_WINDOW = (BUTTONS || WINDOW ).
+ 
+menu RUN = {tick,{up,down}.{press,release},opened,closed}
+
+/*
+In this example, it is easier to check the required safety property by
+a test embedded in WINDOW rather than use an explicit property process
+*/
+
+
+
+
+
+

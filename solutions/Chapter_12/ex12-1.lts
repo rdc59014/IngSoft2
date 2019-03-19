@@ -1,0 +1,11 @@
+/* Concurrency: State Models & Java Programs
+*  Jeff Magee & Jeff Kramer
+*  Solutions to Exercises
+*
+*  Exercise 12.1
+*/
+
+TBUF(T=2)     = INPUT,
+INPUT         = (tick -> INPUT | in -> DELAY[T]),
+DELAY[d:0..T] = (tick -> if (d>0) then DELAY[d-1] else OUTPUT),
+OUTPUT        = (tick -> OUTPUT | out -> TBUF).

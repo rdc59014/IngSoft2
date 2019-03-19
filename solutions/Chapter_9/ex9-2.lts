@@ -1,0 +1,27 @@
+/* Concurrency: State Models & Java Programs
+*  Jeff Magee & Jeff Kramer
+*  Solutions to Exercises
+*
+*  Exercise 9.2
+*/
+
+set Bold = {bold[1..2]}
+set Meek = {meek[1..2]}
+set Customers = {Bold,Meek}
+
+const MT = 4  //maximum ticket number
+range T = 1..MT
+
+CUSTOMER = (ticket[t:T]->getcheese[t]->CUSTOMER).
+
+TICKET = TICKET[1],
+TICKET[t:T] = (ticket[t]->TICKET[t%MT+1]).
+
+COUNTER = COUNTER[1],
+COUNTER[t:T] = (getcheese[t]->COUNTER[t%MT+1]).
+
+||CHEESE_COUNTER = 
+		(Customers:CUSTOMER || Customers::TICKET || Customers::COUNTER)>>{Meek.getcheese[T]}.
+
+progress BOLD = {Bold.getcheese[T]}
+progress MEEK = {Meek.getcheese[T]}

@@ -1,0 +1,30 @@
+/* Concurrency: State Models & Java Programs
+*  Jeff Magee & Jeff Kramer
+*  Solutions to Exercises
+*
+*  Exercise 9.3
+*/
+
+/* -- Java implementation 
+class Ticket {
+	const MT = 1000;
+	private int next = 0;
+
+	public synchronized int ticket() {
+		next = next%MT + 1;
+		return next;
+	}
+}
+
+class Counter {
+	const MT = 1000;
+	private int serve = 1;
+
+	public synchronized getcheese(int ticket)
+			throws Interruptedexception {
+		while (ticket!=serve) wait();
+		serve = serve%MT + 1;
+		notifyAll();
+	}
+}
+*/

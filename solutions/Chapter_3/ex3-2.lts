@@ -1,0 +1,23 @@
+/* Concurrency: State Models & Java Programs
+*  Jeff Magee & Jeff Kramer
+*  Solutions to Exercises
+*
+*  Exercise 3.2
+*/
+
+ELEMENT = (up->down->ELEMENT).
+
+||COUNT(N = 4) = (forall[i:0..N-1] e[i]:ELEMENT)
+                 /{ up/e[0].up, down/e[N-1].down,
+                    forall[i:0..N-2] {e[i].down/e[i+1].up}
+                  }@{up,down}.
+
+/* look at the LTS that results from RUN */
+
+/* there is an alternative rather neater recursive definition */
+
+||COUNTR(N=4) =  if (N == 1) then
+                    ELEMENT
+                 else
+                    (ELEMENT/{mid/down} || COUNTR(N-1)/{mid/up})
+                 @{up,down}.

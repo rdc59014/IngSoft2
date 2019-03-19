@@ -1,0 +1,100 @@
+// Barrier Synchronization -  Verification Model
+
+const N = 3
+/*
+* definition of wait/notify mechanism
+*/
+
+const Nthread  = N       //cardinality of Threads
+set   Threads  = {thread[1..Nthread]} //set of thread indentifiers
+
+ELEMENT  
+  = (wait -> BLOCKED | unblockAll -> ELEMENT),
+BLOCKED  
+  = ({unblock,unblockAll} -> UNBLOCK),
+UNBLOCK  
+  = (endwait -> ELEMENT).
+
+
+CONTROL = EMPTY,
+EMPTY   = (wait -> WAIT[1] 
+          |{notifyAll,notify} -> EMPTY
+          ),
+WAIT[i:1..Nthread] 
+        = (when (i<Nthread) wait -> WAIT[i+1]
+          |notifyAll -> unblockAll -> EMPTY
+          |notify -> unblock -> 
+           if (i==1) then EMPTY else WAIT[i-1]
+          ).
+
+set SyncOps = {notify,notifyAll,wait}
+
+||WAITSET 
+      = (Threads:ELEMENT || Threads::CONTROL)
+        /{unblockAll/Threads.unblockAll}.
+
+/*
+* monitor lock
+*/
+set LockOps = {acquire,release}
+LOCK = (acquire -> release ->LOCK).
+
+/*
+* safety property to ensure lock is held when notify,notifyAll
+* or wait is invoked
+*/
+
+property SAFEMON 
+   = ([a:Threads].acquire -> HELDBY[a]),
+HELDBY[a:Threads] 
+   = ([a].{notify,notifyAll,wait} -> HELDBY[a]
+     |[a].release -> SAFEMON
+     ).
+
+/*
+* integer variable
+*/
+const Imax = Nthread
+range Int = 0..Imax
+set VarAlpha = {read[Int],write[Int],inc,dec}
+
+VAR        = VAR[0],
+VAR[v:Int] = (read[v]     ->VAR[v]     //  v
+             |inc         ->VAR[v+1]   //  ++v
+             |dec         ->VAR[v-1]   //  --v
+             |write[c:Int]->VAR[c]     //  v = c
+             ).
+
+set BarrierAlpha = {count.VarAlpha, LockOps, SyncOps}
+ 
+||BARRIERMON   = ( Threads::LOCK || WAITSET ||SAFEMON
+                 ||Threads::(count:VAR)
+                 ).
+
+SYNCTHREAD                       /* thread acquiring barrier synchronization */
+  = (sync.call -> SYNC),
+SYNC 					    /* inlined sync method */
+  = (acquire -> count.inc -> IF),       
+IF    
+  = (count.read[v:Int] ->    // if (count == N) wait();
+     if v==N then
+       (notifyAll -> count.write[0] -> CONTINUE)
+     else
+       (wait -> release -> endwait -> acquire -> CONTINUE)
+    ),
+CONTINUE
+  = (sync                    
+     -> release
+     -> RETURN
+    ),
+RETURN = SYNCTHREAD + BarrierAlpha.
+
+
+||BarrierSystem  = ( Threads:SYNCTHREAD
+                   || BARRIERMON
+                   ).
+
+menu RUN = {Threads.{sync.call,sync}}
+
+
+

@@ -1,0 +1,37 @@
+/* Concurrency: State Models & Java Programs
+*  Jeff Magee & Jeff Kramer
+*  Solutions to Exercises
+*
+*  Exercise 5.6
+*/
+
+const Max = 5
+range Money = 0..Max
+
+ACCOUNT = ACCOUNT[0],
+ACCOUNT[balance:Money] = (when (balance>0) 
+                            withdraw[d:1..balance] -> ACCOUNT[balance-d]
+                         |deposit[d:1..Max] -> ACCOUNT[balance+d]
+                         ).
+
+/* Java implementation 
+
+public class Account {
+  protected double balance;
+
+  public Account() {balance =0.0;}
+  public Account(double initial) {balance = initial;}
+
+  public synchronized void withdraw(d:double) throws InterruptedException{
+        while (balance < d) wait();
+        balance -= d;
+  }
+
+  public synchronized void notify(d:double) {
+        balance += d;
+        notifyAll();
+  }
+}
+
+*/
+

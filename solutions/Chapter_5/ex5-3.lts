@@ -1,0 +1,50 @@
+/* Concurrency: State Models & Java Programs
+*  Jeff Magee & Jeff Kramer
+*  Solutions to Exercises
+*
+*  Exercise 5.3
+*/
+
+/* EAST, WEST, DIRECTOR will be implemented as threads, CONTROL as a monitor */
+
+CONTROL        = CLOSED[0],
+CLOSED[i:0..N] = (when (i==0) open -> OPENED[0]
+                 |when (i>0)  leave -> CLOSED[i-1]
+                 ),
+OPENED[i:0..N] = (close -> CLOSED[i]
+                 |when (i<N) arrive -> OPENED[i+1]
+                 |when (i>0) leave  -> OPENED[i-1]
+                 ).
+
+/* java Implementation
+
+public class Control {
+    int count == 0;
+    boolean opened = false;
+
+    public synchronized void arrive() throws InterruptedException {
+        while(!opened) wait();
+        ++count
+    }
+
+ 	public synchronized void leave() throws InterruptedException {
+        while(count<=0) wait();
+        --count;
+        if (count==0) notifyAll();
+    }
+
+	public synchronized void open() throws InterruptedException {
+        while (count>0) wait();
+        opened =true;
+        notifyAll();
+    }
+
+	public synchronized void close() throws InterruptedException {
+        opened = false;
+    }
+
+}
+
+*/
+    
+         

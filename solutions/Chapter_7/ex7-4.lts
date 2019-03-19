@@ -1,0 +1,16 @@
+/* Concurrency: State Models & Java Programs
+*  Jeff Magee & Jeff Kramer
+*  Solutions to Exercises
+*
+*  Exercise 7.4
+*/
+
+BSEMA = (up -> down -> BSEMA).
+
+PROCESS  = (console.up -> console.down -> PROCESS).
+
+set Processes = {user[1..2],system[1..2]}
+
+/* system processes have higher priority than user processes */
+||OS = ( Processes:PROCESS || Processes::console:BSEMA)>>{user}.
+

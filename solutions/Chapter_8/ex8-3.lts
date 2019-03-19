@@ -1,0 +1,38 @@
+/* Concurrency: State Models & Java Programs
+*  Jeff Magee & Jeff Kramer
+*  Solutions to Exercises
+*
+*  Exercise 8.3
+*/
+
+const N = 3   //number of customers
+const M = 2   //number of pumps
+
+range C = 1..N
+range P = 1..M
+range A = 1..2   //Amount of money or Gas
+
+CUSTOMER = (prepay[a:A]->gas[x:A]->
+		  if (x==a) then CUSTOMER else ERROR).
+
+CASHIER      = (customer[c:C].prepay[x:A]->start[P][c][x]->CASHIER).
+
+PUMP         = (start[c:C][x:A] -> gas[c][x]->PUMP).
+
+DELIVER = (gas[P][c:C][x:A]->customer[c].gas[x]->DELIVER).
+
+||STATION = (CASHIER || pump[1..M]:PUMP || DELIVER)
+            /{pump[i:1..M].start/start[i],
+              pump[i:1..M].gas/gas[i]}.
+
+||GASSTATION =  (customer[1..N]:CUSTOMER ||STATION).
+
+range T = 1..2 
+property
+   FIFO          =  (customer[i:T].prepay[A] -> PAID[i]),
+   PAID[i:T]     =  (customer[i].gas[A]      -> FIFO 
+                    |customer[j:T].prepay[A] -> PAID[i][j]),
+   PAID[i:T][j:T]=  (customer[i].gas[A]      -> PAID[j]).
+
+||CHECK_FIFO = (GASSTATION || FIFO).
+// we expect this property to be violated !!

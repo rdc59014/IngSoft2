@@ -1,0 +1,38 @@
+/* Concurrency: State Models & Java Programs
+*  Jeff Magee & Jeff Kramer
+*  Solutions to Exercises
+*
+*  Exercise 10.3
+*/
+
+// the idea here is to send a set of N tokens to
+// the producer. before sending the producer must get a token
+// the consumer returns tokens in response to message receipt
+
+// Asynchronous message passing port 
+//(turn off "Display warning messages")
+
+const N = 3
+set   M = {msg} 
+set   S = {[M],[M][M]}
+
+PORT            //empty state, only send permitted
+  = (send[x:M]->PORT[x]),  
+PORT[h:M]       //one message queued to port   
+  = (send[x:M]->PORT[x][h] 
+    |receive[h]->PORT
+    ),   
+PORT[t:S][h:M]  //two or more  messages queued to port 
+   = (send[x:M]->PORT[x][t][h]
+     |receive[h]->PORT[t]
+     ).
+
+PRODUCER = (empty.receive.token -> dest.send.msg -> PRODUCER).
+
+CONSUMER = SENDBUF[N],
+SENDBUF[i:1..N] = (empty.send.token -> if (i==1) then CONTINUE else SENDBUF[i-1]),
+CONTINUE = (dest.receive.msg -> empty.send.token -> CONTINUE).
+
+||PRODCONS = (PRODUCER || CONSUMER || empty:PORT || dest: PORT)
+             /{empty.[i:{send,receive}].token/empty[i].msg}.
+

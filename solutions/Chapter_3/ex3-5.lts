@@ -1,0 +1,22 @@
+/* Concurrency: State Models & Java Programs
+*  Jeff Magee & Jeff Kramer
+*  Solutions to Exercises
+*
+*  Exercise 3.5
+*/
+
+/* roller coaster */
+
+const M = 3
+
+TURNSTILE = (passenger -> TURNSTILE).
+
+CONTROL          = CONTROL[0],
+CONTROL[i:0..M]  = (when (i<M) passenger -> CONTROL[i+1]
+                   |when (i==M) depart   -> CONTROL[0]
+                   ).
+
+CAR = (depart -> CAR).
+
+||ROLLERCOASTER = (TURNSTILE || CONTROL || CAR).
+

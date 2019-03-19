@@ -1,0 +1,27 @@
+/* Concurrency: State Models & Java Programs
+*  Jeff Magee & Jeff Kramer
+*  Solutions to Exercises
+*
+*  Exercise 8.2
+*/
+
+const N = 2   //number of customers
+
+range C = 1..N
+range A = 1..2   //Amount of money or Gas
+
+CUSTOMER = (prepay[a:A]->gas[x:A]->
+		  if (x==a) then CUSTOMER else ERROR).
+
+CASHIER      = (customer[c:C].prepay[x:A]->start[c][x]->CASHIER).
+
+PUMP         = (start[c:C][x:A] -> gas[c][x]->PUMP).
+
+DELIVER = (gas[c:C][x:A]->customer[c].gas[x]->DELIVER).
+
+||STATION = (CASHIER || pump:PUMP || DELIVER)
+            /{pump.start/start,
+              pump.gas/gas}.
+
+||GASSTATION =  (customer[1..N]:CUSTOMER ||STATION).
+

@@ -1,0 +1,60 @@
+/* Concurrency: State Models & Java Programs
+*  Jeff Magee & Jeff Kramer
+*  Solutions to Exercises
+*
+*  Exercise 11.1
+*/
+/* Barrier Synchronization using Tuple Space */
+
+const NB =  3 //number of processes to synchronize at barrier
+
+const False = 0
+const True  = 1
+range Bool = False..True
+
+const N          = 2                  //Maximum Number of tuple copies
+set   Tuples     = {barrier[0..NB]}
+set   TupleAlpha = {{in,out,rd,rdp[Bool],inp[Bool]}.Tuples}
+
+TUPLE(T='any) = TUPLE[0],
+TUPLE[i:0..N] 
+  = (out[T]                   -> TUPLE[i+1]
+    |when (i>0) in[T]         -> TUPLE[i-1]
+    |when (i>0) inp[True][T]  -> TUPLE[i-1]
+    |when (i==0)inp[False][T] -> TUPLE[i]
+    |when (i>0) rd[T]         -> TUPLE[i]
+    |rdp[i>0][T]              -> TUPLE[i]
+    ).
+
+||TUPLESPACE = forall [t:Tuples] TUPLE(t).
+
+/* the solution is the that from page 583 of Greg Andrews book 
+   initally out("barrier".0) is performed
+then each process executes:
+   in("barrier",?v)
+   out("barrier",v+1)
+   rd("barrier",NB)
+*/
+
+INIT = (out.barrier[0] -> STOP)+TupleAlpha.
+PROCESS = (in.barrier[v:0..NB]->out.barrier[v+1]->rd.barrier[NB]->continue->STOP)+TupleAlpha.
+
+||BARRIER = (init:INIT || p[1..NB]:PROCESS || {init,p[1..NB]}::TUPLESPACE).
+
+/* trace to deadlock give example barrier sync trace:
+Trace to DEADLOCK:
+	init.out.barrier.0
+	p.1.in.barrier.0
+	p.1.out.barrier.1
+	p.2.in.barrier.1
+	p.2.out.barrier.2
+	p.3.in.barrier.2
+	p.3.out.barrier.3
+	p.1.rd.barrier.3
+	p.1.continue
+	p.2.rd.barrier.3
+	p.2.continue
+	p.3.rd.barrier.3
+	p.3.continue
+*/
+
