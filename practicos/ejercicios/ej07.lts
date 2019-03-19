@@ -1,0 +1,29 @@
+/* Ejercicio 7 - practico 1*/
+
+//const N = 2
+//range T = 0..N
+
+MAQ = (in[0] -> CINCO
+      |in[1] -> DIEZ
+      |in[2] -> VEINTE),
+
+CINCO = (in[0] -> DIEZ
+        |in[1] -> STOP
+        |in[2] -> VEINTECINCO),
+
+DIEZ = (in[0] -> STOP
+       |in[1] -> VEINTE
+       |in[2] -> TREINTA),
+
+VEINTE = (dec[0] -> despachar -> STOP),
+//V5VEINTE = (despachar -> STOP),
+
+VEINTECINCO = (dec[0] -> jump -> VEINTE //-> V5VCINCO
+			  |dec[1] -> despachar -> STOP), //-> V10VCINCO),
+//V5VCINCO = (jump -> VEINTE),
+//V10VCINCO = (despachar -> STOP),
+
+TREINTA = (dec[0] -> jump -> VEINTECINCO //-> V5TREINTA
+		  |dec[1] -> jump -> VEINTE). //-> V10TREINTA),
+//V5TREINTA = (jump -> VEINTECINCO),
+//V10TREINTA = (jump -> VEINTE).

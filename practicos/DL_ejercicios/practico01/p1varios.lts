@@ -1,0 +1,54 @@
+MEETING = (hello -> converse -> goodbye -> STOP) .
+
+JOB = (arrive -> work -> leave -> JOB).
+
+MOVIE = (ahead -> (right -> MOVIE | left -> STOP)) .
+
+GAME = ( tree -> lose -> GAME | {one, two} -> win -> GAME) .
+
+FOURTICK = ( tick -> tick -> tick -> tick -> STOP ) .
+
+range T = 1..3
+DOUBLE = (in[i:T] -> out[i] -> DOUBLE) .
+
+PERSON = (weekend -> sleep -> work -> PERSON 
+			| weekend -> sleep -> {play, shop} -> PERSON
+			).
+
+//Ejercicio 4
+VARIABLE (N=2) 		= VARIABLE[N],
+VARIABLE [i:0..N]	= (read[i] -> VARIABLE[i] | write[j:0..N] -> VARIABLE[j]).
+
+//Ejercicio 5
+//BISTABLE = (trigger -> (cero -> trigger -> uno -> BISTABLE | uno -> trigger -> cero -> BISTABLE)).
+
+range B = 0..1
+BISTABLE2 = BISTABLE2[0],
+BISTABLE2[i:B] = (trigger -> (	when(i==0) cero -> BISTABLE2[1] |
+								when(i==1) uno -> BISTABLE2[0])
+								).
+
+//Ejercicio 6
+range S = 0..9
+SENSOR = SENSOR[5],
+SENSOR[i:S] = (
+	when(i<2) bajo -> SENSOR[i] | 
+	when(i>8) alto -> SENSOR[i] | 
+	when(i>=2 && i<=8) normal -> SENSOR[i]
+).
+SENSAR = (nivel[i:S] -> (when(i<2) bajo -> SENSAR
+	| when(i>8) alto -> SENSAR
+	| when(i>=2 && i <= 8) normal-> SENSAR) ).
+
+//Ejercicio 7
+range M = 0..35
+MAQUINA = MAQUINA[0],
+MAQUINA[i:M] = (
+	when(i<15)  ingreso[5] -> MAQUINA[5+i] |
+	when(i<15)  ingreso[10] -> MAQUINA[10+i] |
+	when(i<15)  ingreso[20] -> MAQUINA[20+i] |	
+	when(i==15) gaseosa -> MAQUINA |
+	when(i>15) gaseosa -> vuelto[i-15] -> MAQUINA
+).
+
+

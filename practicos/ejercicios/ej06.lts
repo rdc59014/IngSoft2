@@ -1,0 +1,9 @@
+/* Ejercicio 6 */
+
+const N = 9
+range T = 0..N
+
+SENSOR = (level[i:0..9] -> (when(i<2) bajo -> SENSOR
+			  			   |when(i>8) alto -> SENSOR
+		  	 	           |when(i>=2 && i<=8) normal -> SENSOR)).
+

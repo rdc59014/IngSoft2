@@ -1,0 +1,17 @@
+CINTA = (transporta -> (a.producto -> CINTA | b.producto -> CINTA)).
+
+BRAZO_IN = (a.producto -> poner_prensa -> BRAZO_IN |
+			b.producto -> poner_taladro -> BRAZO_IN).
+
+BRAZO_OUT = (sacar_prensa -> soltar -> BRAZO_OUT |
+			 sacar_taladro -> soltar -> BRAZO_OUT).
+
+PRENSA = (recibir -> comprimir -> liberar -> PRENSA).
+
+TALADRO = (recibir -> taladrar -> liberar -> TALADRO).
+
+||FABRICA = (CINTA || BRAZO_IN || BRAZO_OUT || a:PRENSA || b:TALADRO)
+	/{ 	poner_prensa/a.recibir,
+		poner_taladro/b.recibir,
+		sacar_prensa/a.liberar,
+		sacar_prensa/b.liberar }.

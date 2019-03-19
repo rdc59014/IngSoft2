@@ -1,0 +1,7 @@
+CINTA = (transportar -> parar -> CINTA).
+
+BRAZO = (tomar  -> soltar -> BRAZO).
+
+PRENSA = (recibir -> prensar  -> liberar -> PRENSA).
+
+||FABRICA = (CINTA || a:BRAZO || b:BRAZO || PRENSA)/{a.tomar/parar,a.soltar/recibir,b.tomar/liberar}.
