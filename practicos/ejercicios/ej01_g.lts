@@ -1,7 +1,0 @@
-PEARSON = (weekend -> UNO
-          |weekend -> TRES),
-UNO = (sleep -> DOS),
-DOS = (work -> PERSON),
-TRES = (sleep -> CUATRO),
-CUATRO = ({play, shop} -> PERSON).
-

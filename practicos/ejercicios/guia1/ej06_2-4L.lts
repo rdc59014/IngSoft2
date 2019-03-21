@@ -1,0 +1,12 @@
+/* Ejercicio 6 */
+
+const N = 9
+range T = 0..N
+
+SENSOR = SENSOR[5],
+SENSOR[j:T] = (nivel[i:T] -> SENSOR[i]
+			  |when(j>8) alto -> SENSOR[j]
+		  	  |when(j>=2 && j<=8) normal -> SENSOR[j]
+			  |when(j<2) bajo -> SENSOR[j]
+			  ).
+

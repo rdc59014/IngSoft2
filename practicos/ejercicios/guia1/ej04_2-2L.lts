@@ -1,0 +1,8 @@
+const N = 2
+range T = 0..N
+
+
+VAR = STORE[0],
+STORE[i:T] = ( wr[j:T] -> STORE[j]
+			  |rd[i] -> STORE[i]
+			 ).

@@ -1,0 +1,8 @@
+/*
+ * FOURTICK: Ejercicio 2.6 del libro.
+*/
+
+FOURTICK = (tick -> TICK1),
+TICK1 = (tick -> TICK2),
+TICK2 = (tick -> TICK3),
+TICK3 = (tick -> STOP).

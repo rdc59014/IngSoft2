@@ -1,3 +1,0 @@
-JOB = (arrive -> ARRIVE),
-ARRIVE = (work -> WORK),
-WORK = (leave -> JOB).

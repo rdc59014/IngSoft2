@@ -1,9 +1,0 @@
-const N = 6
-range T = 0..N
-
-VAR = VAR[0],
-VAR[i:T] = ( wr[i] -> VAR[i]
-			|rd[i] -> VAR[i]
-			|when(i<N)wr[i+1] -> VAR[i+1]
-			|when(i>0)wr[i-1] -> VAR[i-1]
-			).

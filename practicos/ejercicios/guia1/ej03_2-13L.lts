@@ -1,0 +1,8 @@
+/*
+ * GAME: Ejercicio 2.3 libro:
+*/
+
+GAME = ( {one, two} -> GAME1
+		|three -> GAME2),
+GAME1 = (win -> GAME),
+GAME2 = (lose -> GAME).

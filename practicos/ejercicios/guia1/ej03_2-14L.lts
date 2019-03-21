@@ -1,0 +1,7 @@
+/*
+ * MOVE: Ejercicio 2.4 del libro.
+*/
+
+MOVE = (ahead -> ONE),
+ONE = (  left -> STOP
+		|right -> MOVE).
