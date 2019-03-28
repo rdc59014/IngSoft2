@@ -1,5 +1,9 @@
 /*
- * Ejercicio 3-3 del libro
+ * Ejercicio 3-3 del libro,
+ * (la unica diferencia con la solucion del libro
+ * es que el tiene un solo servicio y yo dos nombres
+ * por cada nombre. Esto surge de hacer un reestiquetado
+ * al reves).
 */
 
 CLIENT = (call -> wait -> continue -> CLIENT).
