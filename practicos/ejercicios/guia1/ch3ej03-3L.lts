@@ -1,0 +1,10 @@
+/*
+ * Ejercicio 3-3 del libro
+*/
+
+CLIENT = (call -> wait -> continue -> CLIENT).
+SERVER = (request -> service -> reply -> SERVER).
+
+||CLIENT_SERVER = (a:CLIENT || b:CLIENT || {a,b}::SERVER)
+				  /{a.call/a.request, b.call/b.request,
+					a.reply/a.wait, b.reply/b.wait}.
