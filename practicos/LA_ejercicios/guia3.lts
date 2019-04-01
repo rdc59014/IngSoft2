@@ -1,0 +1,96 @@
+
+//ej2 🤔🍽
+SEMAPHORE (N=4) = SEMAPHORE[N],
+// SEMAPHORE[j:0..N] = (up -> SEMAPHORE[j+1]
+//                     |when(j!=0) down -> SEMAPHORE[j-1]).
+// puedo reemplazar una accion por multiples?
+SEMAPHORE[j:0..N] = (phil[1..5].arise -> SEMAPHORE[j+1]
+                    |when(j!=0) phil[1..5].sitdown -> SEMAPHORE[j-1]).
+
+
+FORK = (get -> put -> FORK).
+PHIL = (sitdown -> right.get -> left.get -> eat -> left.put -> right.put -> arise -> PHIL).
+
+// // f p f p f p f p f p
+// ||DINERS = (phil[p:1..5]:PHIL
+//            ||{phil[1].right, phil[5].left}::FORK
+//            ||{phil[2].right, phil[1].left}::FORK
+//            ||{phil[3].right, phil[2].left}::FORK
+//            ||{phil[4].right, phil[3].left}::FORK
+//            ||{phil[5].right, phil[4].left}::FORK
+//            ||SEMAPHORE(4)).//{down/phil[1..5].sitdown, up/phil[1..5].arise}.
+// // progress ALLEAT = {phil[1..5].eat}
+// progress EATS1 = {phil[1].eat}
+// progress EATS2 = {phil[2].eat}
+// progress EATS3 = {phil[3].eat}
+// progress EATS4 = {phil[4].eat}
+// progress EATS5 = {phil[5].eat}
+
+
+//ej13 🗼↕
+ELEVATOR(N=15) = ELEVATOR[0],
+ELEVATOR[i:0..N] = (when(i<N) enter -> ELEVATOR[i+1]
+                   |when(i>0) exit -> ELEVATOR[i-1]).
+
+// property ELEVATOR_SAFETY(CANT=10) = ELEVATOR_SAFETY[0],
+// ELEVATOR_SAFETY[i:0..CANT] = (when(i<CANT) enter -> ELEVATOR[i+1]
+//                       |when(i>0) exit -> ELEVATOR[i-1]).
+
+// ||ELEVATOR = (ELEVATOR||ELEVATOR_SAFETY).
+
+
+//ej14 y ej15 🏳🍇
+// el ej14 viola ENTERS2 (es esperable), el ej15 soluciona este problema
+// set Safe_actions = {{n1,n2}.{see.up, see.down, pick}, {flag1, flag2}.{raise, lower}}
+set Safe_actions = {{n1,n2}.{see.up, see.down, pick}, {flag1, flag2}.{raise, lower}, {leerturnode, darturnoa}.{n1,n2}}
+BOOLVAR = VAL[0],
+VAL[s:0..1] = (raise -> VAL[1]
+              |lower -> VAL[0]
+              |when(s==0) seen.down -> VAL[0]
+              |when(s==1) seen.up -> VAL[1]).
+||ZFLAGS = (flag1:BOOLVAR||flag2:BOOLVAR).
+
+// este para la version ej14
+NEIGHBOR = (raise -> (see.up -> lower -> NEIGHBOR    
+                     |see.down -> enter -> PICKING)),
+PICKING = (pick -> PICKING                           
+          |leave -> lower -> NEIGHBOR).              
+
+// version de veciono piola que usa turnero
+NEIGHBOR_PIOLA = (raise -> sederlugar -> (see.up -> (noesmiturno -> NEIGHBOR_RAISED
+                                                    |esmiturno -> enter -> PICKING)
+                                         |see.down -> enter -> PICKING)),
+NEIGHBOR_RAISED = (see.down -> enter -> PICKING                                       
+                  |esmiturno -> enter -> PICKING),                                    
+PICKING = (pick -> PICKING                                                   
+          |leave -> lower -> NEIGHBOR_PIOLA).
+
+
+progress ENTERS1 = {n1.enter}
+progress ENTERS2 = {n2.enter}
+property NEIGHBORS_SAFETY = (Safe_actions -> NEIGHBORS_SAFETY
+                            |n1.enter -> N1_INSIDE
+                            |n2.enter -> N2_INSIDE),
+N1_INSIDE = (Safe_actions -> N1_INSIDE
+            |n1.leave -> NEIGHBORS_SAFETY),
+N2_INSIDE = (Safe_actions -> N2_INSIDE
+            |n2.leave -> NEIGHBORS_SAFETY).
+
+TURNERO = TURNERO['n1],
+TURNERO[n:{n1,n2}] = (darturnoa.[j:{n1,n2}] -> TURNERO[j]
+                     |leerturnode[n] -> TURNERO[n]).
+
+||NEIGHBORS = (
+            //    n1:NEIGHBOR/{flag1.lower/n1.lower, flag1.raise/n1.raise}     //ej14
+            //  ||n2:NEIGHBOR/{flag2.lower/n2.lower, flag2.raise/n2.raise}     //ej14
+               n1:NEIGHBOR_PIOLA/{flag1.lower/n1.lower, flag1.raise/n1.raise,                                        //ej15
+                            leerturnode.n2/n1.noesmiturno,leerturnode.n1/n1.esmiturno,darturnoa.n2/n1.sederlugar}    //ej15
+             ||n2:NEIGHBOR_PIOLA/{flag2.lower/n2.lower, flag2.raise/n2.raise,                                        //ej15
+                            leerturnode.n1/n2.noesmiturno,leerturnode.n2/n2.esmiturno,darturnoa.n1/n2.sederlugar}    //ej15
+             ||TURNERO                                                                                               //ej15
+             ||ZFLAGS/{n1.see/flag2.seen, n2.see/flag1.seen}
+             ||NEIGHBORS_SAFETY) << {flag1.raise}. //n1 es egoista
+
+
+
+// animate=false

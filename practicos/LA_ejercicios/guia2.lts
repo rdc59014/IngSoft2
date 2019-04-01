@@ -1,0 +1,99 @@
+RESOURCE = (acquire -> release -> RESOURCE).
+
+// ||RESOURCE = {a,b}::RESOURCE.
+
+USER = (acquire->use->release->USER).//@{acquire,release}.
+
+// ||USER = USER. 
+
+const BSIZE = 2
+BUFF = (in[j:0..BSIZE-1] -> out[j] -> BUFF).
+
+// ||BUFFER = BUFFER.
+// ||TWOBUFFER = (a:BUFFER||b:BUFFER)/{in/a.in, a.out/b.in, out/b.out}@{in, out}.
+// ||TWOBUFF = (a:BUFF||b:BUFF) 
+//     /{in/a.in,
+//       a.out/b.in, 
+//       out/b.out}
+//     // .
+//     @ {in, out}.
+
+// ||PRINTER_SHARE = (a:USER
+//                     /{a.printer.acquire/a.acquire,
+//                         a.printer.release/a.release}
+//                     ||b:USER
+//                     /{b.printer.acquire/b.acquire,
+//                         b.printer.release/b.release}
+//                     ||{a,b}::printer:RESOURCE).
+
+const S = 3
+SPACES = SPACES[0],
+SPACES[s:0..S] = (when (s<S) arrive -> SPACES[s+1]
+                 |when (s>0) departure -> SPACES[s-1]).
+ARRIVALS = (arrive -> ARRIVALS).
+DEPARTURES = (departure -> DEPARTURES).
+// ||CARPARKCONTROL = (ARRIVALS||DEPARTURES||SPACES).
+
+
+// ej2 ✍📖
+const K = 2 // numero de procesos que puede acceder simultaneamente
+const N = 2 // en el sistema hay N lectores
+const M = 2 // en el sistema hay M escritores
+
+SEMAPHORE = SEMAPHORE[K],
+SEMAPHORE[k:0..K] = (up -> SEMAPHORE[k+1]
+                    |when(k!=0) down -> SEMAPHORE[k-1]).
+// LECTOR = (down -> leer -> up -> LECTOR).
+// ESCRITOR = (down -> leer -> escribir -> up -> ESCRITOR).
+// ||LECTOR_ESCRITOR = (l[1..N]:LECTOR||e[1..M]:ESCRITOR||{l[1..N],e[1..M]}::SEMAPHORE).
+
+// esta forma modelaria que en una libreria solo se pueden utilizar K libros simultaneamente 
+// (por ejemplo este seria el caso si ubieran solo K libros en total).
+LECTOR = (pedir -> USARR),
+USARR = (leer -> USARR
+        |devolver -> LECTOR).
+ESCRITOR = (pedir -> USARRW),
+USARRW = (leer -> USARRW
+       |esribir -> USARRW
+       |devolver -> ESCRITOR).
+||LIBRARY = (l[1..N]:LECTOR
+                    ||e[1..M]:ESCRITOR
+                    ||{l[1..N],e[1..M]}::(SEMAPHORE/{pedir/down,devolver/up})).
+
+
+// const K = 2
+// const N = 2
+// const M = 2
+
+// READER = (read -> READER).
+// WRITER = (read_write -> WRITER).
+// BOOK = BOOK[0],
+// BOOK[i:0..N+M] = (when(i < K) read -> BOOK[i + 1]
+//                  |when(i < K) read_write -> BOOK[i + 1]
+//                  |when(i > 0) release -> BOOK[i - 1]).
+
+// ||LIBRARY = (READER || WRITER || BOOK).
+
+//ej3 🎭
+// const TERMINALES_TEATRO = 3
+// const CANTIDAD_ASIENTOS = 3  
+// set ESTADOS_ASIENTO = {vacio, ocupado}
+// SERVIDOR_TEATRO = SERVIDOR_TEATRO
+// TEATRO[s:1..CANTIDAD_ASIENTOS*CANTIDAD_ASIENTOS][] = 
+
+// range S = 1..5
+// set VarAlpha = {reservation[S], failure[S]}
+
+// EMPLOYEE = (show -> pick[i:S] -> check[i] -> EMPLOYEE).
+// SEAT = (check[i:S] -> reservation[i] -> SEATO[i]),
+// SEATO[i:S] = (check[j:S] -> (when(j == i) failure[i] -> SEATO[i]
+//                          |when(j != i) reservation[j] -> SEATO[j])).
+// CLIENT = (pick[i:S] -> CLIENT).
+
+// ||THEATER = (EMPLOYEE || CLIENT || SEAT).
+
+
+//ej12
+P = (a -> (t -> b -> STOP
+          |t -> c -> STOP)).
+||Q = P\{t}.
