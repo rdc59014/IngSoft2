@@ -1,0 +1,21 @@
+/*
+ * Ejercicio 3.6 del libro
+*/
+const M = 3
+
+DIRECTOR = (on -> closed -> last -> off -> DIRECTOR).
+
+EAST = (on -> ON),
+ON = (in -> ON
+	 |closed -> EAST).
+
+WEST = (on -> OUT),
+OUT = (out -> OUT
+	  |off -> WEST).
+
+CONTROL = (on -> CONTROL[0]),
+CONTROL[i:0..M] = (when(i<M) in -> CONTROL[i+1]
+	    		  |when(i>0) out -> CONTROL[i-1]
+				  |when(i==0) last -> CONTROL).
+
+||MUSEUM = (DIRECTOR || EAST || WEST || CONTROL).

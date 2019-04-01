@@ -7,7 +7,7 @@
 
 /* museum  */
 
-const N = 5
+const N = 3
 
 EAST = (arrive -> EAST).
 
