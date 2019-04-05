@@ -1,0 +1,19 @@
+/*
+ * Ejercicio 3-5 del libro,
+ * (la unica diferencia con la solucion del libro
+ * es que el tiene un solo servicio y yo dos nombres
+ * por cada nombre. Esto surge de hacer un reestiquetado
+ * al reves).
+*/
+const M = 2
+range R = 0..M
+
+CONTROL = CONTROL[0],
+CONTROL[i:R] = ( when(i<M)  passenger -> CONTROL[i+1]
+				|when(i==M) depart -> CONTROL).
+
+CAR = (depart -> CAR).
+
+TURNSTILE = (passenger -> TURNSTILE).
+
+||ROLLER_COASTER = (CONTROL || CAR || TURNSTILE).

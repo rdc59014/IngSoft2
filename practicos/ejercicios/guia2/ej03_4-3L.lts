@@ -1,0 +1,24 @@
+ /* Concurrency: State Models & Java Programs                              
+ *  Jeff Magee & Jeff Kramer
+ *  Solutions to Exercises
+ *
+ *  Exercise 4.3
+ */
+
+range M = 0..1  //numero de asientos
+
+TERMINAL = (elegir[j:M] -> butaca[j].solicitar[i:0..1]
+            -> butaca[j].reservar -> TERMINAL
+		   ).
+
+//modelo p/cada asiento 
+ASIENTO = ASIENTO[0],  //el "cero" es libre, el "uno" ocupado
+ASIENTO[i:0..1] = (reservar -> ASIENTO[1]
+               	  |solicitar[i] -> ASIENTO[i]
+//                  |when (i==1) reservar -> ERROR   //se quiere reservar cuando ya esta ocupado
+                  ).
+/*
+||ASIENTOS = (butaca[i:M]:ASIENTO).  //todos son igualmente accesibles
+
+||CONCIERTO = ({a,b}:TERMINAL || {a,b}::ASIENTOS).
+*/
