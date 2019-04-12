@@ -7,7 +7,7 @@
 
 /* Dining Savages */
 
-const M = 5
+const M = 3
 
 SAVAGE = (getserving -> SAVAGE).
 
