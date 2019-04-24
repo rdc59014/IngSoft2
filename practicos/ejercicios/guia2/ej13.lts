@@ -1,0 +1,8 @@
+P = (a -> (b -> STOP
+		  |t -> c -> STOP)
+	).
+
+Q = (a -> (b -> STOP
+		  |t -> c -> STOP)
+	|a -> c -> STOP
+	).
