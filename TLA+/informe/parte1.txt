@@ -1,0 +1,155 @@
+
+
+INTRODUCCION
+
+TLA+ es un lenguaje para modelado de software por encima del nivel de código
+y de hardware por encima del nivel de circuito. Tiene un IDE (Entorno de
+desarrollo integrado) para escribir modelos y ejecutar herramientas para 
+verificarlos. La herramienta más utilizada por los ingenieros es el
+verificador de modelos TLC, pero también hay un verificador de pruebas.
+TLA+ se basa en las matemáticas y no se parece a ningún lenguaje de
+programación. La mayoría de los ingenieros encontran que PlusCal, es la forma
+más fácil de comenzar a usar TLA+.
+
+TLA+ comenzó como una notación, y el verificador de modelos, TLC, solo
+salió 5 años después. Como nunca fue pensado para ejecutarse, hay algunas
+suposiciones de que es un documento leído en lugar de ser un código
+ejecutable. Los modelos TLA+ suelen denominarse especificaciones
+
+PlusCal salió quince años después de TLA+. Se supone que TLC debe seguir
+perfectamente la semántica de TLA+, y como PlusCal es un estilo completamente
+diferente, no se puede ajustar al mismo esquema. Detrás de escena, trasladamos
+PlusCal a TLA+ en bruto.
+
+
+PLUSCAL
+
+PlusCal es un lenguaje para escribir algoritmos, especialmente los concurrentes
+y distribuidos. Está destinado a reemplazar el pseudocódigo con un código
+preciso y comprobable. PlusCal parece un lenguaje de programación de juguete
+simple, pero con construcciones para describir la concurrencia y la no
+determinación. Es infinitamente más expresivo que cualquier lenguaje de
+programación porque cualquier fórmula matemática puede usarse como una
+expresión de PlusCal. Un algoritmo PlusCal se traduce en un modelo TLA+ que
+puede verificarse con las herramientas de TLA+. Debido a que parece un
+lenguaje de progra
+mación, la mayoría de los ingenieros consideran que PlusCal
+es más fácil de aprender que TLA+. Pero debido a que parece un lenguaje de
+programación, PlusCal no puede estructurar modelos complejos tan bien como
+TLA+.
+
+PlusCal es una herramienta para trabajar con TLA+: agrega una interfaz tipo
+pseudocódigo a las especificaciones, lo que facilita su comprensión para los
+programadores. Si bien no se pueden escribir todas las especificaciones
+interesantes con PlusCal, es un excelente punto de entrada al modelado. 
+
+
+MODELOS
+
+Las computadoras y las redes de computadoras son objetos físicos cuyos
+comportamientos están descritos por leyes físicas continuas. Se diferencian
+de la mayoría de los otros tipos de objetos físicos en que sus
+comportamientos se modelan naturalmente como conjuntos de eventos discretos.
+La programación, la ingeniería de software y la mayoría de las ciencias de la
+computación se ocupan de los modelos en los que el comportamiento de un sistema
+se describe como un conjunto de eventos discretos. Ningún modelo es una
+descripción completamente precisa de un sistema real. Un modelo es una
+descripción de algún aspecto del sistema, escrito para algún propósito.
+
+TLA+ se basa en estado, lo que significa que modela una ejecución de un 
+sistema como una secuencia de estados, donde un evento está representado por
+un par de estados consecutivos. Llamamos a una secuencia de estados un 
+comportamiento; y llamamos a un par de estados consecutivos un paso en lugar
+de un evento. Un sistema se modela como el conjunto de comportamientos que
+describen todas sus posibles ejecuciones.
+
+
+MAQUINAS DE ESTADO
+
+Como muchos métodos basados el estado, TLA+ describe un conjunto de
+comportamientos con dos cosas:
+
+    Una condición inicial que especifica los posibles estados de inicio.
+    Una relación de estado siguiente que especifica los pasos posibles
+    (pares de estados sucesivos).
+
+Especifican el conjunto de comportamientos cuyo primer estado satisface la
+condición inicial y cada paso satisface la relación del siguiente estado.
+
+Este tipo de modelo a menudo se llama una máquina de estado . (Una máquina
+de estados finitos es una máquina de estados con un conjunto finito de estados
+posibles. Las máquinas de estados finitos no son tan útiles como las máquinas
+de estados generales.) Una máquina de Turing es un ejemplo de una máquina de
+estados. En una máquina de Turing determinista, la relación de estado siguiente
+permite a lo sumo un estado siguiente para cualquier estado, y no permite el
+estado siguiente para un estado de terminación.
+
+El método más simple y práctico de describir con precisión la semántica de un
+lenguaje de programación, llamado semántica operacional, consiste esencialmente
+en mostrar cómo compilar un programa en el lenguaje en una máquina de estados.
+Dada una semántica operacional, cualquier programa en el lenguaje puede verse
+como una máquina de estado. Sospecho que la mayoría de los programadores piensan
+intuitivamente en un programa de esa manera.
+
+La acción del siguiente estado especifica qué pasos pueden suceder; no especifica
+qué pasos, si los hay, deben ocurrir. Eso requiere una condición adicional,
+llamada propiedad de equidad . Una máquina de estado que modela un programa
+secuencial generalmente incluye la propiedad de imparcialidad de que se debe dar
+algún paso (el comportamiento no debe detenerse) si la relación del estado
+siguiente permite que se tome un paso. Los modelos de programas concurrentes y
+distribuidos a menudo tienen propiedades de equidad más complicadas.
+
+Se puede usar un modelo de máquina de estado sin una condición de imparcialidad
+para detectar errores de comisión, en los que el sistema hace algo incorrecto.
+No se puede utilizar para detectar errores de omisión, en los que el sistema no
+puede hacer algo. En la práctica, los errores de comisión son más numerosos y
+difíciles de encontrar que los errores de omisión. A menudo, los ingenieros no
+se molestan en agregar condiciones de equidad. Por lo tanto, primero debe aprender
+a escribir la condición inicial y la relación del siguiente estado en sus modelos
+TLA+. Más tarde, puedes aprender a escribir condiciones de justicia.
+
+
+COMPROBANDO PROPIEDADES
+
+Una de las razones para modelar un sistema es verificar si hace lo que queremos.
+Lo hacemos verificando si el modelo satisface las propiedades que creemos que
+afirman que el sistema hace lo que debe. TLA+ puede afirmar, y sus herramientas
+pueden verificar, solo que alguna propiedad de un comportamiento individual es
+cierta para cada comportamiento posible del modelo. Por lo tanto, TLA+ no puede
+afirmar que el 99% de todos los comportamientos posibles terminen en un estado
+correcto. Sin embargo, puede afirmar (y sus herramientas pueden verificar) que
+cada comportamiento posible termina en un estado correcto si su estado inicial
+pertenece a un conjunto particular que contiene el 99% de todos los estados
+iniciales posibles.
+
+El tipo de propiedad más útil para verificar es una propiedad de invariancia,
+que afirma que algo es cierto para cada estado de cada comportamiento posible.
+A menudo, un ingeniero verificará solo las propiedades de invariancia de un
+modelo.
+
+Para un modelo que contiene una condición de imparcialidad, también debe
+verificar las propiedades simples que aseguran que algo suceda eventualmente,
+por ejemplo, que cada ejecución finalmente se detiene. Esas propiedades,
+llamadas propiedades de vitalidad , se expresan fácilmente en TLA+.
+
+La gran variedad de propiedades que queremos comprobar para los sistemas
+concurrentes no se puede expresar como propiedades de invariancia y vida
+simple. Se pueden expresar como máquinas de estado (posiblemente con condiciones
+de imparcialidad). Una máquina de estado se puede ver como la propiedad que se
+satisface con los posibles comportamientos de la máquina de estado. Podemos
+comprobar si otra máquina de estado satisface esta propiedad. Si lo hace,
+decimos que la otra máquina de estado implementa la máquina de estado.
+
+En TLA+ no hay una distinción formal entre una máquina de estado y una
+propiedad. Ambos se describen mediante fórmulas matemáticas. Una máquina de
+estado es una fórmula que tiene una forma particular, diferente de la forma
+de una propiedad de invariancia o vida. Tanto la satisfacción de una propiedad
+y la implementación de una máquina de estado significa que una fórmula
+implica otra.
+
+Hoy en día, la mayoría de los ingenieros verifican solo las propiedades de
+invariancia y las propiedades de vida simple. Sin embargo, incluso si nunca
+lo hace, saber cómo se hace explica lo que significa que un programa implemente
+un modelo, lo que puede ayudarlo a evitar cometer errores en su código.
+
+
