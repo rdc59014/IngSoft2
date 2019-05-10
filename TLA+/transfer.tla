@@ -63,7 +63,6 @@ Spec == Init /\ [][Next]_vars
 Termination == <>(\A self \in ProcSet: pc[self] = "Done")
 
 \* END TRANSLATION
-
 MoneyInvariant == alice_account + bob_account = account_total
 
 ====

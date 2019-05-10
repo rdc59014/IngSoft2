@@ -1,28 +1,99 @@
 
 
-INTRODUCCION
+1. CONTEXTO DE CREACION DE LA HERRAMIENTA
 
-TLA+ es un lenguaje para modelado de software por encima del nivel de código
-y de hardware por encima del nivel de circuito. Tiene un IDE (Entorno de
-desarrollo integrado) para escribir modelos y ejecutar herramientas para 
-verificarlos. La herramienta más utilizada por los ingenieros es el
-verificador de modelos TLC, pero también hay un verificador de pruebas.
+Leslie Lamport se interesó en el problema de la Logica Temporal Lineal (LTL)
+después de que una revisión por pares encontró un error en un documento que
+presentó sobre la exclusión mutua. Ed Ashcroft introdujo la invariancia en su
+artículo de 1975 "Probar aseveraciones sobre programas paralelos", que Lamport
+utilizó para generalizar el método de Floyd en su documento de 1977 "Prueba
+de corrección de programas multiproceso". El artículo de Lamport también
+introdujo los conceptos de "safety" (la seguridad) y "liveness" (la vida) como
+generalizaciones de "partial correctness" (corrección parcial) y "termination"
+(terminación) respectivamente. Este método se usó para verificar el primer
+algoritmo de recolección de basura concurrente en un artículo de 1978 junto
+con Edsger Dijkstra.
+
+Lamport se encontró por primera vez con la LTL de Pnueli durante un seminario
+de 1978 en Stanford organizado por Susan Owicki. Según Lamport, "estaba
+seguro de que la lógica temporal era una especie de absurdo abstracto que
+nunca tendría ninguna aplicación práctica, pero me pareció divertido, así que
+asistí". En 1980 publicó "Sometime" is sometimes "Not never" ("A veces"
+algunas veces es "no nunca"), que se convirtió en uno de los artículos más
+citados en la literatura de la lógica temporal. Lamport trabajó en escribir
+especificaciones de lógica temporal durante su tiempo en SRI (es un instituto
+y organización estadounidense de investigación científica sin fines de lucro
+con sede en Menlo Park, California), pero encontró que el enfoque no era
+práctico.
+
+Su búsqueda de un método práctico de especificación resultó en el documento
+de 1983 "Especificación de módulos de programación concurrentes", que
+introdujo la idea de describir las transiciones de estado como funciones de
+valores booleanos de variables imprimadas y no imprimadas. El trabajo continuó
+a lo largo de los años 80, y Lamport comenzó a publicar artículos sobre la
+lógica temporal de las acciones en 1990; sin embargo, no se introdujo
+formalmente hasta que se publicó "La lógica temporal de acciones" en 1994.
+TLA permitió el uso de acciones en fórmulas temporales, lo que, según
+Lamport, "proporciona una manera elegante de formalizar y sistematizar todo
+el razonamiento utilizado en la verificacion de sistemas concurrentes".
+
+Las especificaciones de TLA consistían principalmente en matemáticas no
+temporales ordinarias, que Lamport encontró menos engorrosas que una
+especificación puramente temporal. TLA proporcionó una base matemática para
+el lenguaje de especificación TLA+, introducido con el documento
+"Especificando sistemas concurrentes con TLA+" en 1999. Más tarde, ese mismo
+año, Yuan Yu escribió el verificador de modelos TLC para las especificaciones
+TLA+; TLC se utilizó para encontrar errores en el protocolo de coherencia de
+caché para un multiprocesador Compaq.
+
+Lamport publicó un libro de texto completo sobre TLA + en 2002, titulado
+"Especificación de sistemas: el lenguaje y las herramientas de TLA+ para
+ingenieros de software". PlusCal se introdujo en 2009, y el sistema de prueba
+TLA+ (TLAPS) en 2012. TLA+2 se anunció en 2014, agregando algunas
+construcciones de lenguaje adicionales, así como un apoyo en el idioma mucho
+mayor para el sistema de pruebas. Lamport se dedica a crear una referencia
+actualizada de TLA+.
+
+En Microsoft, se descubrió un error crítico en el módulo de memoria de
+Xbox 360 durante el proceso de escritura de una especificación en TLA+. TLA+
+se usó para escribir pruebas formales de corrección para los "Paxos
+bizantinos" y los "componentes de la tabla de hash distribuida Pastry".
+
+Amazon Web Services ha utilizado TLA+ desde 2011. El modelo TLA+ verifica
+errores descubiertos en DynamoDB, S3, EBS y un administrador de bloqueo
+distribuido interno; algunos errores requerían rastros de estado de 35 pasos.
+La verificación de modelos también se usó para verificar optimizaciones
+agresivas. Además, se encontró que las especificaciones de TLA+ tienen valor
+como documentación y ayudas de diseño.
+
+Microsoft Azure usó TLA+ para diseñar CosmosDB, una base de datos distribuida
+globalmente con cinco modelos de consistencia diferentes.
+
+[fuente para esta parte]:
+https://en.wikipedia.org/wiki/TLA%2B.
+______________________________________________________________________________
+
+2. OBJETIVO DE LA HERRAMIENTA
+
+TLA es un acrónimo de Lógica Temporal de Acciones, es un lenguaje para
+modelado de software por encima del nivel de código y de modelado de hardware
+por encima del nivel de circuito. Tiene un IDE (Entorno de Desarrollo
+Integrado) para escribir modelos y ejecutar herramientas para verificarlos.
+La herramienta más utilizada por los ingenieros es el verificador de modelos
+TLC.
 TLA+ se basa en las matemáticas y no se parece a ningún lenguaje de
-programación. La mayoría de los ingenieros encontran que PlusCal, es la forma
+programación. La mayoría de los ingenieros encuentran que PlusCal, es la forma
 más fácil de comenzar a usar TLA+.
 
-TLA+ comenzó como una notación, y el verificador de modelos, TLC, solo
+TLA+ comenzó como una notación, y el verificador de modelos TLC, solo
 salió 5 años después. Como nunca fue pensado para ejecutarse, hay algunas
 suposiciones de que es un documento leído en lugar de ser un código
-ejecutable. Los modelos TLA+ suelen denominarse especificaciones
+ejecutable. Los modelos TLA+ suelen denominarse especificaciones.
 
 PlusCal salió quince años después de TLA+. Se supone que TLC debe seguir
 perfectamente la semántica de TLA+, y como PlusCal es un estilo completamente
-diferente, no se puede ajustar al mismo esquema. Detrás de escena, trasladamos
+diferente, no se puede ajustar al mismo esquema. Detrás de escena, se traslada
 PlusCal a TLA+ en bruto.
-
-
-PLUSCAL
 
 PlusCal es un lenguaje para escribir algoritmos, especialmente los concurrentes
 y distribuidos. Está destinado a reemplazar el pseudocódigo con un código
@@ -32,8 +103,7 @@ determinación. Es infinitamente más expresivo que cualquier lenguaje de
 programación porque cualquier fórmula matemática puede usarse como una
 expresión de PlusCal. Un algoritmo PlusCal se traduce en un modelo TLA+ que
 puede verificarse con las herramientas de TLA+. Debido a que parece un
-lenguaje de progra
-mación, la mayoría de los ingenieros consideran que PlusCal
+lenguaje de programación, la mayoría de los ingenieros consideran que PlusCal
 es más fácil de aprender que TLA+. Pero debido a que parece un lenguaje de
 programación, PlusCal no puede estructurar modelos complejos tan bien como
 TLA+.
@@ -42,9 +112,6 @@ PlusCal es una herramienta para trabajar con TLA+: agrega una interfaz tipo
 pseudocódigo a las especificaciones, lo que facilita su comprensión para los
 programadores. Si bien no se pueden escribir todas las especificaciones
 interesantes con PlusCal, es un excelente punto de entrada al modelado. 
-
-
-MODELOS
 
 Las computadoras y las redes de computadoras son objetos físicos cuyos
 comportamientos están descritos por leyes físicas continuas. Se diferencian
@@ -63,14 +130,12 @@ comportamiento; y llamamos a un par de estados consecutivos un paso en lugar
 de un evento. Un sistema se modela como el conjunto de comportamientos que
 describen todas sus posibles ejecuciones.
 
-
-MAQUINAS DE ESTADO
-
 Como muchos métodos basados el estado, TLA+ describe un conjunto de
 comportamientos con dos cosas:
 
-    Una condición inicial que especifica los posibles estados de inicio.
-    Una relación de estado siguiente que especifica los pasos posibles
+ -> Una condición inicial que especifica los posibles estados de inicio.
+
+ -> Una relación de estado siguiente que especifica los pasos posibles
     (pares de estados sucesivos).
 
 Especifican el conjunto de comportamientos cuyo primer estado satisface la
@@ -107,9 +172,6 @@ difíciles de encontrar que los errores de omisión. A menudo, los ingenieros no
 se molestan en agregar condiciones de equidad. Por lo tanto, primero debe aprender
 a escribir la condición inicial y la relación del siguiente estado en sus modelos
 TLA+. Más tarde, puedes aprender a escribir condiciones de justicia.
-
-
-COMPROBANDO PROPIEDADES
 
 Una de las razones para modelar un sistema es verificar si hace lo que queremos.
 Lo hacemos verificando si el modelo satisface las propiedades que creemos que
@@ -151,5 +213,12 @@ Hoy en día, la mayoría de los ingenieros verifican solo las propiedades de
 invariancia y las propiedades de vida simple. Sin embargo, incluso si nunca
 lo hace, saber cómo se hace explica lo que significa que un programa implemente
 un modelo, lo que puede ayudarlo a evitar cometer errores en su código.
+
+[fuente para esta parte]:
+https://lamport.azurewebsites.net/tla.html
+https://lorinhochstein.wordpress.com/2018/12/24/tla-is-hard-to-learn/
+______________________________________________________________________________
+
+3. DESCRIPCION DE LA HERRAMIENTA DEL LADO DEL USUARIO
 
 
