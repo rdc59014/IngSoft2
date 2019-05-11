@@ -1,0 +1,10 @@
+set VarAlpha = {value.frequency.[88..108]}
+RADIO = (on -> FM),
+FM = FM[108],
+FM[i:88..108] = (off -> RADIO
+	 			|reset -> frequency[108] -> FM[108]
+				|scan -> SCAN[i]),
+SCAN[i:88..108] = (when(i>88) scanning -> frequency[i] -> SCANNING[i]
+		  		  |when(i==88) bottom -> frequency[i] -> FM[88]),
+SCANNING[i:89..108] = (not_found -> SCAN[i - 1]
+			  		  |found -> FM[i]).

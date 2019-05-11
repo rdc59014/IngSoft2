@@ -1,0 +1,17 @@
+const N = 10
+range B = 0..(N + 1)
+set VarAlpha = {cut_bald, cut_not_bald}
+
+CHAIRS = CHAIRS[0][0],
+CHAIRS[i:B][j:B] = (when(i < N) not_bald -> waiting -> CHAIRS[i+1][j]
+                   |when(i < N) bald -> waiting -> CHAIRS[i+1][j+1]
+                   |when(i >= N) not_bald -> goes_out -> CHAIRS[i][j]
+                   |when(i >= N) bald -> goes_out -> CHAIRS[i][j]
+                   |when(i > 0 && j > 0) cut_bald -> CHAIRS[i-1][j-1]
+                   |when(i > 0 && j == 0) cut_not_bald -> CHAIRS[i-1][j])
+                   +VarAlpha.
+
+BARBER = (cut_bald -> BARBER
+         |cut_not_bald -> BARBER).
+
+||HAIRDRESSER = (BARBER || CHAIRS).

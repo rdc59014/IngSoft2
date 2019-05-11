@@ -1,0 +1,3 @@
+MOVIE = (ahead -> TEMP),
+TEMP = (left -> STOP
+		| right -> MOVIE).

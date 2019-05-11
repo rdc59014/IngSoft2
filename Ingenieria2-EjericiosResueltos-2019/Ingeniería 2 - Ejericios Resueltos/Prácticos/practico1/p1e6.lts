@@ -1,0 +1,17 @@
+// Una manera de hacerlo
+
+SENSOR = SENSOR[1],
+SENSOR[i:0..9] = (
+	display[i] -> SENSOR[i]
+	| when(i<2) bajo -> SENSOR[i+1]
+	| when(i>=2 && i<=8) normal -> SENSOR[i+1]
+	| when(i>8) alto -> STOP
+	).
+
+// Otra manera de hacerlo
+
+SENSOR2 = (nivel[i:0..9] -> (
+	when(i<2) bajo -> SENSOR2
+	| when(i>=2 && i<=8) normal -> SENSOR2
+	| when(i>8) alto -> SENSOR2
+	)).

@@ -1,0 +1,18 @@
+const N = 3 //Cantidad asientos
+const T = 2 //Cantidad terminales
+
+/* Un asiento puede estar ocupado o desocupado */
+ASIENTO = ASIENTO[0],
+ASIENTO[i:0..1] = (when(i==0 a.reservar -> ASIENTO[1])).
+
+/* Usamos un lock para no reservar un asiento 2 veces */
+LOCK = (acquire -> release -> LOCK).
+
+/* Componemos */
+ASIENTO_LOCK = (a[1..N]:ASIENTO || LOCK).
+
+
+TERMINAL = (a[1..N].pide -> (valido -> TERMINAL 
+							|novalido -> TERMINA)L)
+
+BD = ().

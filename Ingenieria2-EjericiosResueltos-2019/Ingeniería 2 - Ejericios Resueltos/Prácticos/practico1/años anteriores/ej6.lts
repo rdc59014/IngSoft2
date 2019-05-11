@@ -1,0 +1,6 @@
+range T = 0..9
+SENSOR(N=5) = SENS[N],
+SENS[v:T] = (level[i:T] -> SENS[i]|
+			 when(v<2) bajo -> SENS[v]|
+			 when(2<=v&&v<=8) normal -> SENS[v]|
+			 when(8<v) alto -> SENS[v]).

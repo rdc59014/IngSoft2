@@ -1,0 +1,9 @@
+const N = 10
+
+ASCENSOR = (enter -> ASCENSOR | exit -> ASCENSOR).
+
+property SAFETY = MAXTEN[0],
+MAXTEN[i:0..N] = (when (i>0) exit -> MAXTEN[i-1]
+                | when (i<N) enter -> MAXTEN[i+1]).
+
+||P = (ASCENSOR || SAFETY).

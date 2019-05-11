@@ -1,0 +1,19 @@
+
+const N = 4
+BUTLER = BUTLER[0],
+BUTLER[i:0..N] = (when (i<N) sitdown -> BUTLER[i+1]
+				|when (i>0) arise -> BUTLER[i-1]
+				).
+
+PHIL = (sitdown->right.get->left.get
+          ->eat->left.put->right.put
+          ->arise->PHIL).
+
+FORK = (get -> put -> FORK).
+
+||DINERS(N=5)= //preguntar como funca esto
+   (forall [i:0..N-1](phil[i]:PHIL
+   || {phil[i].left, phil[((i-1)+N)%N].right}::FORK)
+   || BUTLER)/{phil[0..N-1].sitdown/sitdown,phil[0..N-1].arise/arise}.
+
+menu RUN = {phil[0..4].{sitdown,eat}}

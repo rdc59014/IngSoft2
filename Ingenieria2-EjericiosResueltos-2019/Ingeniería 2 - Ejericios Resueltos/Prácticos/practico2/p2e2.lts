@@ -1,0 +1,21 @@
+const N = 2
+const M = 3
+
+const K = 2
+
+CONTROL = CTRL[0][0],
+CTRL[i:0..N][j:0..1] = 	( when (j==0 && i<K) l.acquire -> CTRL[i+1][j]
+						| when (j==0 && i==0) e.acquire -> CTRL[i][j+1]
+		  		 		| l.release -> CTRL[i-1][j]
+						| e.release -> CTRL[i][j-1]).
+
+LECTOR = (acquire -> leer -> release -> LECTOR).
+
+ESCRITOR = (acquire -> leer -> escribir -> release -> ESCRITOR).
+
+/* Recordar: el renombre se le hace al ctrl. Si hicieramos l.acquire/l[1..N].acquire, 
+	se me sincronizarían todos los lectores al mismo tiempo. No quiero eso. */
+||PROC = (l[1..N]:LECTOR || e[1..M]:ESCRITOR || CONTROL)/{l[1..N].acquire/l.acquire,
+															  l[1..N].release/l.release,
+															  e[1..M].acquire/e.acquire,
+															  e[1..M].release/e.release}.

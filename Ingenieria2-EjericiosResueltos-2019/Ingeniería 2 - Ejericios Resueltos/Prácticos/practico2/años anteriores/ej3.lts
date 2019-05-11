@@ -1,0 +1,10 @@
+range S = 1..5
+set VarAlpha = {reservation[S], failure[S]}
+
+EMPLOYEE = (show -> pick[i:S] -> check[i] -> EMPLOYEE).
+SEAT = (check[i:S] -> reservation[i] -> SEATO[i]),
+SEATO[i:S] = (check[j:S] (when(j == i) failure[i] -> SEATO[i]
+                         |when(j != i) reservation[j] -> SEATO[j]).
+CLIENT = (pick[i:S] -> CLIENT).
+
+||THEATER = (EMPLOYEE || CLIENT || SEAT).

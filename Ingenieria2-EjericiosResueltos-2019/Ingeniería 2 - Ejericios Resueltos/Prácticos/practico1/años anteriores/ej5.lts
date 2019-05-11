@@ -1,0 +1,8 @@
+range T = 0..1
+set VarAlpha = {value.[T]}
+BISTABLE = (trigger -> [1] -> trigger -> [0] -> BISTABLE).
+
+BISTABLE2 = ONE,
+ZERO = (trigger -> [0] -> ONE),
+ONE = (trigger -> [1] -> ZERO).
+menu RUN = {trigger}

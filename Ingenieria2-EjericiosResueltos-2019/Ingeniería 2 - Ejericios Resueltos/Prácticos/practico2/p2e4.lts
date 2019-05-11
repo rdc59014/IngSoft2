@@ -1,0 +1,14 @@
+const M = 4 //Capacidad de la olla
+const N = 6 //Cantidad de salvajes
+
+OLLA = CAPACIDAD[4],
+CAPACIDAD [i:0..M] =	(when (i>0) sirve -> CAPACIDAD[i-1]
+						|when (i==0) vacia -> llena -> CAPACIDAD[M]).
+
+COCINERO = (vacia -> llena -> COCINERO).
+
+SALVAJE = (sirve -> SALVAJE).
+
+||TRIBU = (OLLA || COCINERO || s[1..N]:SALVAJE)/{s[1..N].sirve/sirve}.
+
+/* No me aseguro que todos coman, ya que para esto habría que implementar una cola */

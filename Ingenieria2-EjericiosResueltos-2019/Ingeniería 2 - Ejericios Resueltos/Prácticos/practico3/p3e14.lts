@@ -1,0 +1,22 @@
+set N = {n1, n2}
+set S = {up, down}
+set C = {libre, ocupado}
+
+BANDERA = BANDERA['down],
+BANDERA[s:S] = (when (s=='down) izar -> BANDERA['up]
+                | when (s=='up) arriar -> BANDERA['down]).
+
+CAMPO = CAMPO['libre],
+CAMPO[i:C] = (when (i=='libre) entrar -> CAMPO['ocupado]
+                | when (i=='ocupado) salir -> CAMPO['libre]).
+
+VECINO = (izar -> (entrar -> recoger -> salir -> arriar -> VECINO)
+                | arriar -> VECINO).
+
+property MUTEX = ([n:N].entrar -> [n].salir -> MUTEX).
+progress MORAS1 = {n1.recoger}
+progress MORAS2 = {n2.recoger}
+
+|| RES = (N:BANDERA || CAMPO || N:VECINO || MUTEX)/{
+        [N].entrar/entrar,
+        [N].salir/salir}.

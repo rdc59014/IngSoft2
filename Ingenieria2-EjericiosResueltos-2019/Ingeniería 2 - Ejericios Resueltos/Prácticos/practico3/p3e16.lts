@@ -1,0 +1,20 @@
+POSICION = POS[7],
+POS[i:0..8] = (	
+	when i==0 north -> STOP |
+	when i==0 east -> POS[1] |
+	when i==1 west -> POS[0] |
+	when i==1 south -> POS[4] |
+	when i==1 east -> POS[2] |
+	when i==2 west -> POS[1] |
+	when i==2 south -> POS[5] |
+	when i==3 south -> POS[6] |
+	when i==3 east -> POS[4] |
+	when i==4 west -> POS[3] |
+	when i==4 north -> POS[1] |
+	when i==5 north -> POS[2] |
+	when i==5 south -> POS[8] |
+	when i==6 north -> POS[3] |
+	when i==7 east -> POS[8] |
+	when i==8 west -> POS[7] |
+	when i==8 north ->POS[5]
+).

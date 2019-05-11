@@ -1,0 +1,14 @@
+set VarAlpha = {next.{a,b,c,d}}
+
+CONVEYOR_BELT = (next.a -> CONVEYOR_BELT
+                |next.b -> CONVEYOR_BELT
+                |next.c -> CONVEYOR_BELT
+                |next.d -> CONVEYOR_BELT).
+PRESS = (press -> PRESS).
+DRILL = (drill -> DRILL).
+MECH = (next.a -> press -> empty2belt -> MECH
+       |next.b -> drill -> empty2belt -> MECH
+       |next.c -> press -> drill -> empty2belt -> MECH
+       |next.d -> drill -> press -> empty2belt -> MECH).
+
+||FACTORY = (CONVEYOR_BELT || PRESS || DRILL || MECH).

@@ -1,0 +1,14 @@
+const N = 5
+
+EAST = (entrance -> EAST).
+WEST = (exit -> WEST).
+DIRECTOR = (open -> close -> DIRECTOR).
+CONTROL = CLOSED[0],
+CLOSED[i:0..N] = (when(i == 0) open -> OPENED[i]
+                 |when(i > 0) exit -> CLOSED[i - 1]
+                 ),
+OPENED[i:0..N] = (close -> CLOSED[i]
+                 |when(i < N) entrance -> OPENED[i + 1]
+                 |when(i > 0) exit -> OPENED[i - 1]
+                 ).
+||MUSEUM = (EAST || WEST || DIRECTOR || CONTROL).

@@ -1,0 +1,9 @@
+const N = 10
+range T = 0..10
+
+CHEF = CHEF[0],
+CHEF[i:T] = (when (i == 0) fill -> CHEF[10]
+            |when (i > 0) serve -> CHEF[i - 1]).
+SAVAGE = (serve -> SAVAGE).
+
+||FOOD = (CHEF || SAVAGE).
