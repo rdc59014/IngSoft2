@@ -2,6 +2,10 @@
 
 1. CONTEXTO DE CREACION DE LA HERRAMIENTA
 
+TLA+ es una herramienta ideada y desarrollada por el cientifico de la
+computacion Leslie Lamport, en un ambito academico, que posteriormente se uso
+y se esta usando en la industria, a continuacion una breve reseña de esto.
+
 Leslie Lamport se interesó en el problema de la Logica Temporal Lineal (LTL)
 después de que una revisión por pares encontró un error en un documento que
 presentó sobre la exclusión mutua. Ed Ashcroft introdujo la invariancia en su
@@ -21,8 +25,8 @@ nunca tendría ninguna aplicación práctica, pero me pareció divertido, así q
 asistí". En 1980 publicó "Sometime" is sometimes "Not never" ("A veces"
 algunas veces es "no nunca"), que se convirtió en uno de los artículos más
 citados en la literatura de la lógica temporal. Lamport trabajó en escribir
-especificaciones de lógica temporal durante su tiempo en SRI (es un instituto
-y organización estadounidense de investigación científica sin fines de lucro
+especificaciones de lógica temporal durante su tiempo en SRI (instituto y 
+organización estadounidense de investigación científica sin fines de lucro
 con sede en Menlo Park, California), pero encontró que el enfoque no era
 práctico.
 
@@ -31,7 +35,7 @@ de 1983 "Especificación de módulos de programación concurrentes", que
 introdujo la idea de describir las transiciones de estado como funciones de
 valores booleanos de variables imprimadas y no imprimadas. El trabajo continuó
 a lo largo de los años 80, y Lamport comenzó a publicar artículos sobre la
-lógica temporal de las acciones en 1990; sin embargo, no se introdujo
+lógica temporal de acciones (TLA) en 1990; sin embargo, no se introdujo
 formalmente hasta que se publicó "La lógica temporal de acciones" en 1994.
 TLA permitió el uso de acciones en fórmulas temporales, lo que, según
 Lamport, "proporciona una manera elegante de formalizar y sistematizar todo
@@ -46,18 +50,21 @@ año, Yuan Yu escribió el verificador de modelos TLC para las especificaciones
 TLA+; TLC se utilizó para encontrar errores en el protocolo de coherencia de
 caché para un multiprocesador Compaq.
 
-Lamport publicó un libro de texto completo sobre TLA + en 2002, titulado
+Lamport publicó un libro de texto completo sobre TLA+ en 2002, titulado
 "Especificación de sistemas: el lenguaje y las herramientas de TLA+ para
 ingenieros de software". PlusCal se introdujo en 2009, y el sistema de prueba
 TLA+ (TLAPS) en 2012. TLA+2 se anunció en 2014, agregando algunas
 construcciones de lenguaje adicionales, así como un apoyo en el idioma mucho
-mayor para el sistema de pruebas. Lamport se dedica a crear una referencia
-actualizada de TLA+.
+mayor para el sistema de pruebas.
 
 En Microsoft, se descubrió un error crítico en el módulo de memoria de
 Xbox 360 durante el proceso de escritura de una especificación en TLA+. TLA+
 se usó para escribir pruebas formales de corrección para los "Paxos
-bizantinos" y los "componentes de la tabla de hash distribuida Pastry".
+bizantinos" (Paxos es una familia de protocolos para resolver el consenso en
+una red de procesadores no confiables, es decir, procesadores que pueden
+fallar), y los "componentes de la tabla Pastry de hash distribuida", (Pastry
+es una red de superposición y una red de enrutamiento para la implementación
+de una tabla hash distribuida (DHT) similar a Chord).
 
 Amazon Web Services ha utilizado TLA+ desde 2011. El modelo TLA+ verifica
 errores descubiertos en DynamoDB, S3, EBS y un administrador de bloqueo
