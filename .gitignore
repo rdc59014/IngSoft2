@@ -6,3 +6,4 @@ ltsatool/
 applet/
 *.tar.xz
 *.toolbox
+*.old
