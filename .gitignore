@@ -5,5 +5,5 @@ Libros_Ing_Soft_II/._
 ltsatool/
 applet/
 *.tar.xz
-*.toolbox
-*.old
+TLA+/*.toolbox
+TLA+/*.old

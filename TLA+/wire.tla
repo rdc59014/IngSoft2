@@ -1,6 +1,6 @@
 ---- MODULE wire ----
 
-EXTENDS Integers
+EXTENDS Integers, FiniteSets, Sequences
 
 (* --algorithm wire
     variables
@@ -20,7 +20,6 @@ begin
     Deposit:
         acc[receiver] := acc[receiver] + amount;
 end algorithm; *)
-
 \* BEGIN TRANSLATION
 VARIABLES people, acc, sender, receiver, amount, pc
 
@@ -60,7 +59,8 @@ Termination == <>(pc = "Done")
 
 
 
+
 ====
 \* Modification History
-\* Last modified Mon May 13 12:05:38 ART 2019 by danilo
+\* Last modified Tue May 14 14:37:57 ART 2019 by danilo
 \* Created Sun May 05 09:23:26 ART 2019 by danilo
