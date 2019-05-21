@@ -3,8 +3,8 @@ EXTENDS Sequences, TLC
 (* --algorithm telephone
 
 variables
-    to_send = <<1, 2, 3>>,  \* se enviaran los mensajes 1, 2, 3; en orden.
-    received = <<>>,  \* secuencia de mensajes ingresados.
+    to_send = <<1, 2, 3>>,  \* se envian los mensajes 1, 2, 3; en ese orden.
+    received = <<>>,  \* secuencia de mensajes recibidos.
     in_transit = {},  \* buffer donde se guardan los mensajes.
     can_send = TRUE;  \* define una bandera para asegurar que el
                       \* mensaje fue recibido. 
@@ -14,17 +14,17 @@ begin
     while Len(received) /= 3 do
         \* send y receiver: se realizan concurrentemente
             
-        \* send
+        \* send:
         if can_send /\ to_send /= <<>> then
             in_transit := in_transit \union {Head(to_send)};
             to_send := Tail(to_send);
             can_send := FALSE;
         end if;
         
-        \* receiver
-        \* es no determinista: puede recibir el mensaje -
-        \* como no hacer nada, con la misma probabilidad.
+        \* receiver:
         either
+            \* es no determinista: puede recibir el mensaje -
+            \* como no hacer nada, con la misma probabilidad.
             with msg \in in_transit do
                 received := Append(received, msg);
                 in_transit := in_transit \ {msg};
@@ -43,6 +43,7 @@ begin
 
 assert received = <<1, 2, 3>>;  \* queremos que los mensajes lleguen
                                 \* en el mismo orden.
+end algorithm;*)
 (*
    si bien eliminamos el error de concurrencia al introducir la bandera,
    introducimos otro mas sutil: solamente se puede enviar si la otra
@@ -53,7 +54,8 @@ assert received = <<1, 2, 3>>;  \* queremos que los mensajes lleguen
    no determinismo a la confirmacion de llegada. Pero esto nos lleva a un
    estado de deadlock, es decir falla la confirmacion.
 *)
-end algorithm;*)
+
+
 \* BEGIN TRANSLATION
 VARIABLES to_send, received, in_transit, can_send, pc
 
@@ -105,5 +107,5 @@ Termination == <>(pc = "Done")
 
 =============================================================================
 \* Modification History
-\* Last modified Thu May 16 15:48:28 ART 2019 by danilo
+\* Last modified Sat May 18 08:36:26 ART 2019 by danilo
 \* Created Thu May 16 10:44:51 ART 2019 by danilo
