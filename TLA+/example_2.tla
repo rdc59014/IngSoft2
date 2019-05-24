@@ -44,6 +44,19 @@ begin
 assert received = <<1, 2, 3>>;  \* queremos que los mensajes lleguen
                                 \* en el mismo orden.
 end algorithm;*)
+
+(*
+   si bien eliminamos el error de concurrencia al introducir la bandera,
+   introducimos otro mas sutil: solamente se puede enviar si la otra
+   persona lo ha recibido, pero que pasaria si el mensaje nunca llega?,
+   esto es conocido como un error de liveness.
+   
+   Otra forma seria introducir un "either" dentro del "with", para darle 
+   no determinismo a la confirmacion de llegada y poder evitar el error 
+   de liveness. Pero esto nos lleva a un estado de deadlock, es decir 
+   falla la confirmacion.
+*)
+
 \* BEGIN TRANSLATION
 VARIABLES to_send, received, in_transit, can_send, pc
 
@@ -92,14 +105,5 @@ Spec == Init /\ [][Next]_vars
 Termination == <>(pc = "Done")
 
 \* END TRANSLATION
-(*
-   si bien eliminamos el error de concurrencia al introducir la bandera,
-   introducimos otro mas sutil: solamente se puede enviar si la otra
-   persona lo ha recibido, pero que pasaria si el mensaje nunca llega?,
-   esto es conocido como un error de liveness.
-   
-   Otra forma seria introducir un "either" dentro del "with", para darle 
-   no determinismo a la confirmacion de llegada. Pero esto nos lleva a un
-   estado de deadlock, es decir falla la confirmacion.
-*)
+
 ====

@@ -11,7 +11,7 @@ begin
     while Len(recibidos) /= 3 do
         \* enviar y recibir: se realizan concurrentemente
             
-        \* enviar:
+        \* enviar mensaje:
         if para_enviar /= <<>> then
             en_transito := en_transito \union {Head(para_enviar)};
             para_enviar := Tail(para_enviar);
