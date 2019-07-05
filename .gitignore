@@ -6,7 +6,7 @@ ltsatool/
 applet/
 *.tar.xz
 TLA+/*.toolbox
-TLA+/*.old
+**/TLA+/*.old
 **/.DS_Store
 **/tla/*.toolbox/model
 **/tla/*.toolbox/*aux
