@@ -1,6 +1,0 @@
-const N = 2
-range T = 0..N
-set VarAlpha = {value.{read[T], write[T]}}
-VARIABLE = VARIABLE[0],
-VARIABLE[i:T] = (read[i] -> VARIABLE[i]
-				|write[j:T] -> VARIABLE[j]).

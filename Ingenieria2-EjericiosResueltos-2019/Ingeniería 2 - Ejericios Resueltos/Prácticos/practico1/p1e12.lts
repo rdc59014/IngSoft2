@@ -1,7 +1,0 @@
-PRENSA = (disponible -> brazoA -> comprime -> brazoB -> PRENSA).
-
-BRAZO_A = (agarraA -> disponible -> sueltaA -> BRAZO_A).
-
-BRAZO_B = (comprime -> agarraB -> sueltaB -> BRAZO_B).
-
-||FABRICA = (PRENSA || BRAZO_A || BRAZO_B)/{sueltaA/brazoA, agarraB/brazoB}.

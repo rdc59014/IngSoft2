@@ -1,6 +1,0 @@
-CONVEYOR_BELT = (next -> CONVEYOR_BELT).
-PRESS = (press -> PRESS).
-MECH1 = (next -> press -> empty2belt -> MECH1).
-MECH2 = (press -> empty2press -> MECH2).
-
-||FACTORY = (CONVEYOR_BELT || PRESS || MECH1 || MECH2).

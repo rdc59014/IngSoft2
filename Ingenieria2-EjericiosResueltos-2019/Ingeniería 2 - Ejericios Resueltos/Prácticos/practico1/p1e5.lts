@@ -1,4 +1,0 @@
-BIESTABLE = BIESTABLE[0],
-BIESTABLE[i:0..1] = (
-	when(i==0) trigger -> uno -> BIESTABLE[(i+1)%2]
-	|when(i==1) trigger -> cero -> BIESTABLE[(i+1)%2]).

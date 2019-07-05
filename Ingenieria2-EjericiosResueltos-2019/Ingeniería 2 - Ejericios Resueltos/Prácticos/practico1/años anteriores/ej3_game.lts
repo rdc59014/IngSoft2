@@ -1,5 +1,0 @@
-GAME = (three -> lose -> GAME
-	   | one -> WIN
-		| two -> WIN
-		),
-WIN = (win -> GAME).

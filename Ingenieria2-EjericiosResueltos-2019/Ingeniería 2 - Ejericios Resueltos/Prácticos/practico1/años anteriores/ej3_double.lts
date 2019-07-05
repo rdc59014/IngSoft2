@@ -1,1 +1,0 @@
-DOUBLE = (in[i:1..3] -> out[i] -> DOUBLE).
