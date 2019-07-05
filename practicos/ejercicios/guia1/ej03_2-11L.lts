@@ -1,8 +1,0 @@
-/*
- * MEETING : ejercicio 2.1 del libro.
-*/
-
-MEETING = (hello -> HELLO),
-HELLO = (converse -> CONVERSE),
-CONVERSE = (goodbye -> STOP).
-
